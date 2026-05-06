@@ -1,0 +1,32 @@
+.logo {
+  display: inline-block;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--teal), var(--magenta));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(
+    0 0 12px color-mix(in oklab, var(--teal) 35%, transparent)
+  );
+  transition: filter 220ms ease, transform 120ms ease;
+}
+
+.logo:hover {
+  filter: drop-shadow(
+    0 0 18px color-mix(in oklab, var(--teal) 60%, transparent)
+  );
+}
+
+.logo:active {
+  transform: translateY(1px);
+}
+
+.sm {
+  font-size: 18px;
+}
+
+.md {
+  font-size: 22px;
+}

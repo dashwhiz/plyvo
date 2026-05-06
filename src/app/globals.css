@@ -1,3 +1,9 @@
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 :root {
   /* surfaces */
   --bg-0: #07060d;
@@ -108,6 +114,63 @@ button {
 
 .font-mono {
   font-family: var(--font-mono);
+}
+
+/* readable prose for legal / content pages */
+.prose {
+  color: var(--fg);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.prose h1 {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-ui);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+}
+
+.prose h2 {
+  margin: var(--space-8) 0 var(--space-2);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--fg);
+  letter-spacing: -0.005em;
+}
+
+.prose h2:first-child {
+  margin-top: 0;
+}
+
+.prose p,
+.prose ul {
+  margin: 0 0 var(--space-4);
+  color: var(--fg-muted);
+}
+
+.prose ul {
+  padding-left: var(--space-5);
+}
+
+.prose li {
+  margin: var(--space-1) 0;
+}
+
+.prose a {
+  color: var(--teal);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in oklab, var(--teal) 40%, transparent);
+}
+
+.prose a:hover {
+  border-bottom-color: var(--teal);
+}
+
+.prose strong {
+  color: var(--fg);
+  font-weight: 600;
 }
 
 @media (prefers-reduced-motion: reduce) {

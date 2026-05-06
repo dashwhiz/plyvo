@@ -1,0 +1,30 @@
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.iconButton:hover {
+  background: var(--bg-1);
+}
+
+.iconButton:active {
+  background: var(--bg-2);
+}
+
+.bordered {
+  border-color: var(--line);
+  background: var(--bg-1);
+}
+
+.bordered:hover {
+  background: var(--bg-2);
+}

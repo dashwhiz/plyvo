@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Audiowide, Geist, Geist_Mono } from "next/font/google";
 import Analytics from "@/components/Analytics";
 import { strings } from "@/strings";
@@ -23,6 +23,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: strings.app.name,
   description: strings.app.tagline,
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#07060d",
 };
 
 export default function RootLayout({

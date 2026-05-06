@@ -1,0 +1,92 @@
+.footer {
+  margin-top: var(--space-10);
+  padding-top: var(--space-5);
+}
+
+.line {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, var(--teal) 35%, var(--line)) 50%,
+    transparent
+  );
+  margin-bottom: var(--space-5);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.link {
+  color: var(--fg-muted);
+  text-decoration: none;
+  padding: var(--space-1) var(--space-1);
+  border-radius: 4px;
+  transition: color 160ms ease;
+}
+
+.link:hover {
+  color: var(--fg);
+}
+
+.dot {
+  user-select: none;
+  opacity: 0.5;
+}
+
+.icons {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  color: var(--fg-muted);
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    transform 120ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.iconBtn:hover {
+  color: var(--teal);
+  background: color-mix(in oklab, var(--teal) 12%, transparent);
+}
+
+.iconBtn:active {
+  transform: translateY(1px);
+}
+
+.iconBtn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.copy {
+  text-align: center;
+  letter-spacing: 0.02em;
+}
