@@ -6,11 +6,18 @@ import { useEffect } from "react";
 import {
   GA_MEASUREMENT_ID,
   isAnalyticsAvailable,
+  setAnalyticsOptOut,
   trackPageView,
 } from "@/lib/analytics";
+import { useSetting } from "@/hooks/useSettings";
 
 export default function Analytics() {
   const pathname = usePathname();
+  const analyticsEnabled = useSetting("analyticsEnabled");
+
+  useEffect(() => {
+    setAnalyticsOptOut(!analyticsEnabled);
+  }, [analyticsEnabled]);
 
   useEffect(() => {
     if (!pathname) return;
