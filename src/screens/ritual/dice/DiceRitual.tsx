@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useHistoryActions } from "@/hooks/useHistory";
 import { useSetting } from "@/hooks/useSettings";
 import { track } from "@/lib/analytics";
+import { cn } from "@/lib/cn";
 import { validOptions } from "@/lib/pool";
 import { pickWinner } from "@/lib/random";
 import { strings } from "@/strings";
@@ -50,10 +51,9 @@ export default function DiceRitual({ pool }: DiceRitualProps) {
     if (v.length === 0) return null;
     const { winner } = pickWinner(v);
     const faces = buildFaces(winner, v);
-    // Tumble through several full rotations on both axes; final state lands
-    // exactly on the front face (rotation that's a multiple of 360deg on each
-    // axis), where the winner is rendered.
-    const xTurns = reduceMotion ? 0 : 2 + Math.floor(Math.random() * 2); // 2..3
+    // Final rotation is a multiple of 360 on each axis so the winner stays on
+    // the front face after the tumble.
+    const xTurns = reduceMotion ? 0 : 2 + Math.floor(Math.random() * 2);
     const yTurns = reduceMotion ? 0 : 2 + Math.floor(Math.random() * 2);
     return {
       faces,
@@ -109,18 +109,14 @@ export default function DiceRitual({ pool }: DiceRitualProps) {
           transition={{ duration: plan.duration, ease: [0.16, 1, 0.3, 1] }}
           onAnimationComplete={handleComplete}
         >
-          <div className={`${styles.face} ${styles.front} ${styles.winnerFace}`}>
+          <div className={cn(styles.face, styles.front, styles.winnerFace)}>
             {plan.faces[0]}
           </div>
-          <div className={`${styles.face} ${styles.back}`}>{plan.faces[1]}</div>
-          <div className={`${styles.face} ${styles.right}`}>
-            {plan.faces[2]}
-          </div>
-          <div className={`${styles.face} ${styles.left}`}>{plan.faces[3]}</div>
-          <div className={`${styles.face} ${styles.top}`}>{plan.faces[4]}</div>
-          <div className={`${styles.face} ${styles.bottom}`}>
-            {plan.faces[5]}
-          </div>
+          <div className={cn(styles.face, styles.back)}>{plan.faces[1]}</div>
+          <div className={cn(styles.face, styles.right)}>{plan.faces[2]}</div>
+          <div className={cn(styles.face, styles.left)}>{plan.faces[3]}</div>
+          <div className={cn(styles.face, styles.top)}>{plan.faces[4]}</div>
+          <div className={cn(styles.face, styles.bottom)}>{plan.faces[5]}</div>
         </motion.div>
       </div>
     </div>

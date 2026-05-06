@@ -20,7 +20,6 @@ export const usePoolActions = () =>
       createPool: s.createPool,
       updatePool: s.updatePool,
       deletePool: s.deletePool,
-      touchPool: s.touchPool,
       addOption: s.addOption,
       updateOption: s.updateOption,
       removeOption: s.removeOption,

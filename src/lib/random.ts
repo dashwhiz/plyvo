@@ -12,7 +12,7 @@ export function pickWinner<T>(items: readonly T[]): { winner: T; index: number }
   }
 
   const buf = new Uint32Array(1);
-  const max = Math.floor(0xffffffff / items.length) * items.length;
+  const max = Math.floor(0x100000000 / items.length) * items.length;
   let n: number;
   do {
     crypto.getRandomValues(buf);

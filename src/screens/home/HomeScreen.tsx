@@ -41,13 +41,13 @@ export default function HomeScreen() {
             <p className={styles.emptyBody}>{strings.home.emptyBody}</p>
           </div>
         ) : (
-          <ul className={styles.list}>
+          <Stack as="ul" gap={2} pt={8}>
             {pools.map((pool) => (
               <li key={pool.id}>
                 <PoolListItem pool={pool} />
               </li>
             ))}
-          </ul>
+          </Stack>
         )}
       </Stack>
     </AppShell>

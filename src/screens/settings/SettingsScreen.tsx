@@ -5,7 +5,7 @@ import Logo from "@/components/Logo";
 import Switch from "@/components/Switch";
 import Trash from "@/components/icons/Trash";
 import Stack from "@/components/layout/Stack";
-import { useHistory, useHistoryActions } from "@/hooks/useHistory";
+import { useHistoryActions, useHistoryCount } from "@/hooks/useHistory";
 import { useSettings, useSetSetting } from "@/hooks/useSettings";
 import { track } from "@/lib/analytics";
 import { strings } from "@/strings";
@@ -15,7 +15,7 @@ import styles from "./SettingsScreen.module.css";
 export default function SettingsScreen() {
   const settings = useSettings();
   const setSetting = useSetSetting();
-  const history = useHistory();
+  const historyCount = useHistoryCount();
   const { clearHistory } = useHistoryActions();
   const t = strings.settings;
 
@@ -24,17 +24,11 @@ export default function SettingsScreen() {
     value: AppSettings[K],
   ) => {
     setSetting(key, value);
-    if (
-      key === "soundEnabled" ||
-      key === "reducedMotion" ||
-      key === "analyticsEnabled"
-    ) {
-      track({ name: "setting_changed", setting: key });
-    }
+    track({ name: "setting_changed", setting: key });
   };
 
   const handleClearHistory = () => {
-    if (history.length === 0) return;
+    if (historyCount === 0) return;
     if (!confirm(t.clearHistoryConfirm)) return;
     clearHistory();
     track({ name: "history_cleared" });
@@ -42,7 +36,7 @@ export default function SettingsScreen() {
 
   return (
     <AppShell>
-      <Stack gap={6} style={{ paddingTop: "var(--space-10)" }}>
+      <Stack gap={6} pt={10}>
         <Logo size="md" />
 
         <article className="prose">
@@ -95,7 +89,7 @@ export default function SettingsScreen() {
           type="button"
           className={styles.dangerBtn}
           onClick={handleClearHistory}
-          disabled={history.length === 0}
+          disabled={historyCount === 0}
         >
           <Trash />
           {t.clearHistory}

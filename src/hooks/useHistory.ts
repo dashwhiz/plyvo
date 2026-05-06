@@ -7,6 +7,9 @@ import type { HistoryEntry } from "@/types";
 export const useHistory = (): HistoryEntry[] =>
   useAppStore((s) => s.history);
 
+export const useHistoryCount = (): number =>
+  useAppStore((s) => s.history.length);
+
 export const useHistoryForPool = (poolId: string | undefined): HistoryEntry[] =>
   useAppStore(
     useShallow((s) =>

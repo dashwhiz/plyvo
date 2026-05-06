@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { cn } from "@/lib/cn";
 import styles from "./TopBar.module.css";
 
 type TopBarProps = {
@@ -14,7 +15,7 @@ export default function TopBar({ title, left, right }: TopBarProps) {
     <div className={styles.topBar}>
       <div className={styles.slot}>{left}</div>
       <div className={styles.title}>{title}</div>
-      <div className={`${styles.slot} ${styles.slotEnd}`}>{right}</div>
+      <div className={cn(styles.slot, styles.slotEnd)}>{right}</div>
     </div>
   );
 }

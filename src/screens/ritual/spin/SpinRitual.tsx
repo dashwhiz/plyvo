@@ -35,8 +35,7 @@ export default function SpinRitual({ pool }: SpinRitualProps) {
   const startedAtRef = useRef(0);
   const completedRef = useRef(false);
 
-  // Compute the entire spin plan once on mount. Random values must not run on
-  // re-renders (React purity rule) — useState initializer runs exactly once.
+  // useState initializer keeps the random pick stable across renders.
   const [plan] = useState<Plan | null>(() => {
     const v = validOptions(pool);
     if (v.length === 0) return null;
@@ -48,7 +47,7 @@ export default function SpinRitual({ pool }: SpinRitualProps) {
     const target = (360 - (sliceCenter + jitter) + 360) % 360;
     const fullRotations = reduceMotion
       ? 0
-      : 4 + Math.floor(Math.random() * 3); // 4..6
+      : 4 + Math.floor(Math.random() * 3);
 
     return {
       options: v,

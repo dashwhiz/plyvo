@@ -14,7 +14,7 @@ export default function ImprintPage() {
 
   return (
     <AppShell>
-      <Stack gap={8} style={{ paddingTop: "var(--space-10)" }}>
+      <Stack gap={8} pt={10}>
         <Logo size="md" />
 
         <article className="prose">

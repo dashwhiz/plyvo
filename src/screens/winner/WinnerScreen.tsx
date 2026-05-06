@@ -3,19 +3,15 @@
 import { useEffect } from "react";
 import confetti from "canvas-confetti";
 import { motion } from "motion/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import AppShell from "@/components/AppShell";
 import Button from "@/components/Button";
 import Stack from "@/components/layout/Stack";
-import { useHydrated } from "@/hooks/useHydrated";
-import { usePool } from "@/hooks/usePools";
+import { usePoolFromQuery } from "@/hooks/usePoolFromQuery";
 import { useSetting } from "@/hooks/useSettings";
+import { parseRevealMode } from "@/lib/reveal";
 import { strings } from "@/strings";
-import type { RevealMode } from "@/types";
 import styles from "./WinnerScreen.module.css";
-
-const isRevealMode = (v: string | null): v is RevealMode =>
-  v === "spin" || v === "plyvo" || v === "dice";
 
 const fireConfetti = () => {
   const fire = (origin: { x: number; y: number }, particleCount: number) =>
@@ -33,25 +29,20 @@ const fireConfetti = () => {
 };
 
 export default function WinnerScreen() {
-  const search = useSearchParams();
   const router = useRouter();
-  const hydrated = useHydrated();
+  const { hydrated, pool, search } = usePoolFromQuery();
   const reducedMotion = useSetting("reducedMotion");
 
-  const id = search.get("id") ?? undefined;
   const winnerId = search.get("winner") ?? undefined;
-  const mode: RevealMode = isRevealMode(search.get("mode"))
-    ? (search.get("mode") as RevealMode)
-    : "spin";
+  const mode = parseRevealMode(search.get("mode"));
 
-  const pool = usePool(id);
-  const winner = winnerId
-    ? pool?.options.find((o) => o.id === winnerId)
-    : undefined;
+  const winner =
+    pool && winnerId
+      ? pool.options.find((o) => o.id === winnerId)
+      : undefined;
 
   useEffect(() => {
-    if (!winner) return;
-    if (reducedMotion) return;
+    if (!winner || reducedMotion) return;
     fireConfetti();
   }, [winner, reducedMotion]);
 

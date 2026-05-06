@@ -29,7 +29,6 @@ export type AppSettings = {
   soundEnabled: boolean;
   reducedMotion: boolean;
   analyticsEnabled: boolean;
-  lastUsedPoolId?: string;
 };
 
 export const DEFAULT_SETTINGS: AppSettings = {

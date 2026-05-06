@@ -1,13 +1,13 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import AppShell from "@/components/AppShell";
 import Button from "@/components/Button";
 import Logo from "@/components/Logo";
 import Trash from "@/components/icons/Trash";
 import Stack from "@/components/layout/Stack";
-import { useHydrated } from "@/hooks/useHydrated";
-import { usePool, usePoolActions } from "@/hooks/usePools";
+import { usePoolFromQuery } from "@/hooks/usePoolFromQuery";
+import { usePoolActions } from "@/hooks/usePools";
 import { cn } from "@/lib/cn";
 import { formatOptionCount } from "@/lib/format";
 import { poolReadiness } from "@/lib/pool";
@@ -18,13 +18,18 @@ import OptionRow from "./OptionRow";
 import AddOptionInput from "./AddOptionInput";
 import styles from "./PoolBuilderScreen.module.css";
 
-export default function PoolBuilderScreen() {
-  const search = useSearchParams();
-  const router = useRouter();
-  const hydrated = useHydrated();
+const pickStatusClass = (
+  reachedMax: boolean,
+  ready: boolean,
+): string | undefined => {
+  if (reachedMax) return styles.statusWarn;
+  if (ready) return styles.statusOk;
+  return undefined;
+};
 
-  const id = search.get("id") ?? undefined;
-  const pool = usePool(id);
+export default function PoolBuilderScreen() {
+  const router = useRouter();
+  const { hydrated, pool } = usePoolFromQuery();
   const {
     updatePool,
     deletePool,
@@ -37,7 +42,7 @@ export default function PoolBuilderScreen() {
   if (!hydrated) {
     return (
       <AppShell>
-        <Stack gap={8} style={{ paddingTop: "var(--space-10)" }}>
+        <Stack gap={8} pt={10}>
           <Logo size="md" />
         </Stack>
       </AppShell>
@@ -47,11 +52,9 @@ export default function PoolBuilderScreen() {
   if (!pool) {
     return (
       <AppShell>
-        <Stack gap={8} style={{ paddingTop: "var(--space-10)" }}>
+        <Stack gap={8} pt={10}>
           <Logo size="md" />
-          <p className={styles.notFound}>
-            {strings.home.emptyTitle}
-          </p>
+          <p className={styles.notFound}>{strings.home.emptyTitle}</p>
         </Stack>
       </AppShell>
     );
@@ -67,11 +70,7 @@ export default function PoolBuilderScreen() {
     return formatOptionCount(pool.options.length);
   })();
 
-  const statusClass = reachedMax
-    ? styles.statusWarn
-    : readiness.ok
-      ? styles.statusOk
-      : undefined;
+  const statusClass = pickStatusClass(reachedMax, readiness.ok);
 
   const handleDelete = () => {
     if (!confirm(strings.pool.deleteConfirm)) return;
@@ -81,7 +80,7 @@ export default function PoolBuilderScreen() {
 
   return (
     <AppShell>
-      <Stack gap={6} style={{ paddingTop: "var(--space-8)" }}>
+      <Stack gap={6} pt={8}>
         <Logo size="md" />
 
         <PoolHeader
@@ -91,7 +90,7 @@ export default function PoolBuilderScreen() {
           onIconChange={(icon) => updatePool(pool.id, { icon })}
         />
 
-        <div className={styles.optionList}>
+        <Stack gap={2}>
           {pool.options.map((option, index) => (
             <OptionRow
               key={option.id}
@@ -104,7 +103,7 @@ export default function PoolBuilderScreen() {
               onRemove={() => removeOption(pool.id, option.id)}
             />
           ))}
-        </div>
+        </Stack>
 
         <AddOptionInput
           disabled={reachedMax}

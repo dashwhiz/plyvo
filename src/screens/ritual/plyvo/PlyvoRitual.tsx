@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useHistoryActions } from "@/hooks/useHistory";
 import { useSetting } from "@/hooks/useSettings";
 import { track } from "@/lib/analytics";
+import { cn } from "@/lib/cn";
 import { validOptions } from "@/lib/pool";
 import { pickWinner } from "@/lib/random";
 import { strings } from "@/strings";
@@ -21,7 +22,7 @@ type Plan = {
 };
 
 const buildSequence = (winner: Option, options: Option[]) => {
-  const total = 12; // approximate cycle steps before locking on winner
+  const total = 12;
   const others = options.filter((o) => o.id !== winner.id);
   if (others.length === 0) return [{ id: winner.id, name: winner.name }];
   const seq: { id: string; name: string }[] = [];
@@ -47,7 +48,7 @@ export default function PlyvoRitual({ pool }: PlyvoRitualProps) {
   const router = useRouter();
   const settingReduceMotion = useSetting("reducedMotion");
   const prefersReducedMotion = useReducedMotion();
-  const reduceMotion = settingReduceMotion || prefersReducedMotion;
+  const reduceMotion = Boolean(settingReduceMotion || prefersReducedMotion);
   const { recordWinner } = useHistoryActions();
   const startedAtRef = useRef(0);
   const completedRef = useRef(false);
@@ -64,7 +65,7 @@ export default function PlyvoRitual({ pool }: PlyvoRitualProps) {
       winnerId: winner.id,
       optionCount: v.length,
       ticks: sequence.length - 1,
-      reduceMotion: Boolean(reduceMotion),
+      reduceMotion,
     };
   });
 
@@ -90,7 +91,6 @@ export default function PlyvoRitual({ pool }: PlyvoRitualProps) {
     return () => clearTimeout(t);
   }, [plan, step]);
 
-  // Once we land on the winner card, brief flash → record + navigate.
   useEffect(() => {
     if (!plan) return;
     if (step !== plan.sequence.length - 1) return;
@@ -135,7 +135,7 @@ export default function PlyvoRitual({ pool }: PlyvoRitualProps) {
         <AnimatePresence mode="popLayout">
           <motion.div
             key={current.id}
-            className={`${styles.card} ${isWinner ? styles.winnerCard : ""}`}
+            className={cn(styles.card, isWinner && styles.winnerCard)}
             initial={{ y: -40, scale: 0.92, opacity: 0, rotate: -2 }}
             animate={{
               y: 0,

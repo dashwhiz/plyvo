@@ -33,7 +33,6 @@ type Actions = {
     patch: Partial<Pick<Pool, "title" | "icon" | "lastMode">>,
   ) => void;
   deletePool: (id: string) => void;
-  touchPool: (id: string) => void;
 
   // options
   addOption: (
@@ -117,20 +116,6 @@ export const useAppStore = create<AppStore>()(
             pools: next,
             poolOrder: s.poolOrder.filter((pid) => pid !== id),
             history: s.history.filter((h) => h.poolId !== id),
-            settings:
-              s.settings.lastUsedPoolId === id
-                ? { ...s.settings, lastUsedPoolId: undefined }
-                : s.settings,
-          };
-        });
-      },
-
-      touchPool: (id) => {
-        set((s) => {
-          if (!s.pools[id]) return s;
-          return {
-            poolOrder: [id, ...s.poolOrder.filter((pid) => pid !== id)],
-            settings: { ...s.settings, lastUsedPoolId: id },
           };
         });
       },
@@ -224,12 +209,13 @@ export const useAppStore = create<AppStore>()(
       },
 
       recordWinner: ({ poolId, winnerOptionId, revealMode }) => {
+        const t = now();
         const entry: HistoryEntry = {
           id: nanoid(),
           poolId,
           winnerOptionId,
           revealMode,
-          createdAt: now(),
+          createdAt: t,
         };
         set((s) => {
           const pool = s.pools[poolId];
@@ -238,7 +224,7 @@ export const useAppStore = create<AppStore>()(
             pools: pool
               ? {
                   ...s.pools,
-                  [poolId]: { ...pool, lastMode: revealMode, updatedAt: now() },
+                  [poolId]: { ...pool, lastMode: revealMode, updatedAt: t },
                 }
               : s.pools,
           };
@@ -266,14 +252,16 @@ export const useAppStore = create<AppStore>()(
         history: s.history,
         settings: s.settings,
       }),
-      merge: (persisted, current) => ({
-        ...current,
-        ...(persisted as Partial<State>),
-        settings: {
-          ...DEFAULT_SETTINGS,
-          ...(persisted as Partial<State>)?.settings,
-        },
-      }),
+      merge: (persisted, current) => {
+        const p = (persisted ?? {}) as Partial<State>;
+        return {
+          ...current,
+          pools: p.pools ?? current.pools,
+          poolOrder: p.poolOrder ?? current.poolOrder,
+          history: p.history ?? current.history,
+          settings: { ...DEFAULT_SETTINGS, ...p.settings },
+        };
+      },
     },
   ),
 );
