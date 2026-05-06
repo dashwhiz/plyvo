@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Audiowide, Geist, Geist_Mono } from "next/font/google";
+import Analytics from "@/components/Analytics";
+import { strings } from "@/strings";
 import "./globals.css";
+
+const audiowide = Audiowide({
+  weight: "400",
+  variable: "--font-audiowide",
+  subsets: ["latin"],
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +21,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "plyvo",
-  description: "plyvo",
+  title: strings.app.name,
+  description: strings.app.tagline,
 };
 
 export default function RootLayout({
@@ -23,8 +31,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={`${audiowide.variable} ${geistSans.variable} ${geistMono.variable}`}
+    >
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

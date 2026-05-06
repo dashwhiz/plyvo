@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
+const isProd = process.env.NODE_ENV === "production";
+const basePath = process.env.PLYVO_BASE_PATH ?? "";
+
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: "export",
+  images: { unoptimized: true },
+  basePath: isProd ? basePath : "",
+  assetPrefix: isProd && basePath ? basePath : undefined,
+  trailingSlash: true,
 };
 
 export default nextConfig;
