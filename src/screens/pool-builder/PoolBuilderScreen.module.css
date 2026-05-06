@@ -1,0 +1,54 @@
+.optionList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 0 var(--space-1);
+  font-size: 12px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  color: var(--fg-muted);
+}
+
+.statusOk {
+  color: color-mix(in oklab, var(--teal) 80%, var(--fg));
+}
+
+.statusWarn {
+  color: var(--gold);
+}
+
+.deleteBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: 13px;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  align-self: center;
+  transition: color 160ms ease, background-color 160ms ease;
+}
+
+.deleteBtn:hover {
+  color: var(--danger);
+  background: color-mix(in oklab, var(--danger) 10%, transparent);
+}
+
+.notFound {
+  margin-top: var(--space-10);
+  text-align: center;
+  color: var(--fg-muted);
+}

@@ -24,6 +24,12 @@ export default function Footer() {
             <Link href="/privacy" className={styles.link}>
               {f.privacy}
             </Link>
+            <span className={styles.dot} aria-hidden="true">
+              ·
+            </span>
+            <Link href="/settings" className={styles.link}>
+              {f.settings}
+            </Link>
           </div>
 
           <div className={styles.icons}>

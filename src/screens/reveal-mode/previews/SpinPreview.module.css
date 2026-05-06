@@ -1,0 +1,54 @@
+.wrap {
+  width: 64px;
+  height: 64px;
+  position: relative;
+}
+
+.wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    var(--magenta) 0deg 60deg,
+    var(--teal) 60deg 120deg,
+    var(--coral) 120deg 180deg,
+    var(--gold) 180deg 240deg,
+    var(--magenta) 240deg 300deg,
+    var(--teal) 300deg 360deg
+  );
+  box-shadow:
+    inset 0 0 0 2px var(--bg-2),
+    0 0 16px color-mix(in oklab, var(--teal) 35%, transparent);
+  animation: spin 6s linear infinite;
+}
+
+.hub {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg-2);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 2px var(--bg-2);
+}
+
+.pointer {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--fg);
+  transform: translateX(-50%);
+  filter: drop-shadow(0 0 4px var(--fg));
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

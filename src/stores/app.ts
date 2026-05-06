@@ -168,16 +168,9 @@ export const useAppStore = create<AppStore>()(
         set((s) => {
           const pool = s.pools[poolId];
           if (!pool) return s;
-          const next = pool.options.map((o) => {
-            if (o.id !== optionId) return o;
-            const trimmedName = patch.name?.trim();
-            return {
-              ...o,
-              ...patch,
-              name: trimmedName && trimmedName.length > 0 ? trimmedName : o.name,
-              note: patch.note?.trim() || o.note,
-            };
-          });
+          const next = pool.options.map((o) =>
+            o.id === optionId ? { ...o, ...patch } : o,
+          );
           return {
             pools: {
               ...s.pools,

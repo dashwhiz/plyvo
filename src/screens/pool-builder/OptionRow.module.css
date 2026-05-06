@@ -1,0 +1,71 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background: var(--bg-1);
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition: box-shadow 200ms ease;
+}
+
+.row:focus-within {
+  box-shadow: inset 0 0 0 1px
+    color-mix(in oklab, var(--teal) 50%, var(--line));
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  box-shadow: none;
+  min-height: 40px;
+  padding: 0 var(--space-2);
+  font-size: 15px;
+}
+
+.input:hover {
+  background: transparent;
+  box-shadow: none;
+}
+
+.input:focus {
+  background: transparent;
+  box-shadow: none;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 0;
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: color 160ms ease, background-color 160ms ease;
+}
+
+.iconBtn:hover {
+  color: var(--fg);
+  background: color-mix(in oklab, var(--bg-2) 80%, transparent);
+}
+
+.iconBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.danger:hover {
+  color: var(--danger);
+  background: color-mix(in oklab, var(--danger) 10%, transparent);
+}

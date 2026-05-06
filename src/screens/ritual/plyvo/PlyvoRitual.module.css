@@ -1,0 +1,91 @@
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-5);
+  min-height: 100dvh;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-0);
+}
+
+.halo {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 45%,
+    color-mix(in oklab, var(--magenta) 16%, transparent),
+    transparent 55%
+  );
+  pointer-events: none;
+  animation: pulseHalo 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes pulseHalo {
+  to {
+    background: radial-gradient(
+      circle at 50% 45%,
+      color-mix(in oklab, var(--teal) 18%, transparent),
+      transparent 55%
+    );
+  }
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  z-index: 1;
+}
+
+.stage {
+  position: relative;
+  width: min(70vw, 280px);
+  aspect-ratio: 3 / 4;
+  display: grid;
+  place-items: center;
+  z-index: 1;
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  padding: var(--space-6);
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 4.5vw, 26px);
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, var(--magenta), var(--teal));
+  color: var(--bg-0);
+  box-shadow:
+    inset 0 0 0 1.5px color-mix(in oklab, var(--teal) 60%, transparent),
+    0 0 32px color-mix(in oklab, var(--teal) 35%, transparent);
+  word-break: break-word;
+  will-change: transform, opacity;
+}
+
+.winnerCard {
+  background: linear-gradient(135deg, var(--gold), var(--magenta));
+  color: var(--bg-0);
+  box-shadow:
+    inset 0 0 0 2px var(--gold),
+    0 0 56px color-mix(in oklab, var(--gold) 50%, transparent);
+}
+
+.flash {
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 2;
+}
